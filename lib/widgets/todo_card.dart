@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_app/models/to_do.dart';
+import 'package:to_do_app/services/todo_services.dart';
 
 import '../device.dart';
 
@@ -41,7 +42,7 @@ class _ToDoCardState extends State<ToDoCard> {
           leading: FaIcon(
             widget.todo.done ? FontAwesomeIcons.checkCircle :FontAwesomeIcons.circle,
             size: Device.height * 0.034,
-            color: Device.primaryColor.withOpacity(0.7),
+            color: Device.primaryColor.withOpacity(0.9),
           ),
           title: editToDo 
           //  MediaQuery.of(context).viewInsets.bottom!=0 
@@ -82,8 +83,9 @@ class _ToDoCardState extends State<ToDoCard> {
               ),
               // SizedBox(width: Device.width*0.02,),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   // Delete TO DO
+                  await TodoService.deleteToDo(widget.todo);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

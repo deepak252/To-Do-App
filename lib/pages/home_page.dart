@@ -47,8 +47,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: Device.height * 0.00,
+                    padding: EdgeInsets.only(
+                      bottom: Device.height * 0.02,
+                      top: Device.height * 0.026,
                     ),
                     child: Row(
                       children: [
@@ -59,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                             child: TextField(
                               controller: _todoController,
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                               ),
                               cursorHeight: 26,
                               decoration: InputDecoration(
@@ -121,12 +122,6 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  // ToDoCard(
-                  //   todo: ToDo(
-                  //     todoText:"sdfdf",
-                  //     done: true,
-                  //   ),
-                  // ),
                   Expanded(
                     child: StreamBuilder<QuerySnapshot>(
                       stream: TodoService.fetchStream(),
@@ -134,31 +129,18 @@ class _HomePageState extends State<HomePage> {
                         if (snapshot.hasError) {
                           return Text('Something went wrong');
                         }if(snapshot.hasData){
-                          // return ListView(
-                          //   children: snapshot.data!.docs
-                          //       .map((DocumentSnapshot document) {
-                          //     Map<String, dynamic> data =
-                          //         document.data()! as Map<String, dynamic>;
-                          //     return ListTile(
-                          //       title: Text(data['todoText']),
-                          //     );
-                          //   }).toList(),
-                          // );
                           return ListView.builder(
                             physics: BouncingScrollPhysics(),
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context,index){
-                              Map<String, dynamic> json = snapshot.data!.docs[index].data()! as Map<String, dynamic>;
+                              Map<String, dynamic> json = snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                              json["id"] = snapshot.data!.docs[index].id;
                               return ToDoCard(todo: ToDo.fromJson(json));
                             }
                           );
                         }else{
                           return Container();
                         }
-
-                        
-
-                        
                       },
                     ),
                   )

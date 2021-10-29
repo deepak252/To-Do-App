@@ -18,7 +18,19 @@ class TodoService{
   }
 
   static Stream<QuerySnapshot<Object?>> fetchStream() async*{
-    yield* _todo.snapshots();
+    yield* _todo
+      .orderBy('time', descending: false)
+      .snapshots();
+  }
+// ToDo todo
+  static Future deleteToDo(ToDo todo) async{
+    QuerySnapshot snapshot = await _todo.get();
+    snapshot.docs.forEach((doc) {log("${doc["todoText"]}");});
+    // print(snapshot);
+    // delete
+    _todo.doc(todo.id).delete()
+      .then((value) => log("ToDo Deleted"))
+      .catchError((error) => log("deleToDo error : $error"));
   }
 
 }

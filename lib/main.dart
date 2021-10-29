@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'TO DO App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: "Ubuntu"
       ),
       home: HomePage(),
     );

@@ -17,7 +17,7 @@ class TodoService{
     });
   }
 
-  static Stream<QuerySnapshot<Object?>> fetchStream() async*{
+  static Stream<QuerySnapshot<Object?>> fetchStream() async*{ // Fetch todo snapshots
     yield* _todo
       .orderBy('time', descending: false)
       .snapshots();
@@ -28,6 +28,7 @@ class TodoService{
       .then((value) => log("ToDo Deleted"))
       .catchError((error) => log("deleteToDo error : $error"));
   }
+  
   static updateToDo(ToDo todo, Map<String,dynamic> json) async{
     _todo.doc(todo.id).update(json)
       .then((value) => log("ToDo Updated"))

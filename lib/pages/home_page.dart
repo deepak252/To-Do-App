@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController _todoController = TextEditingController();
-  late FocusNode _focusNode;
+  late FocusNode _focusNode;  // FocusNode for add_todo field
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   void dismissKeyboard() {
     _focusNode.unfocus();
   }
-  void unfocus() {
+  void unfocus() {  // hide onscreen keyboard
     _todoController.clear();
     dismissKeyboard();
   }
@@ -49,10 +49,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Device.height = MediaQuery.of(context).size.height;
     Device.width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Color(0xffdfdfeb),
       body: GestureDetector(
-        // onTap: () => unfocus(context),
         onTap: () => dismissKeyboard(),
         child: Container(
           padding: EdgeInsets.fromLTRB(
@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Row(
                     children: [
+                      // Add_ToDo TextField
                       Expanded(
                         child: Material(
                           borderRadius: BorderRadius.circular(12),
@@ -97,11 +98,15 @@ class _HomePageState extends State<HomePage> {
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                    color: Colors.white, width: 0.0),
+                                  color: Colors.white, 
+                                  width: 0.0
+                                ),
                               ),
                               focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.white, width: 0.0),
+                                  color: Colors.white, 
+                                  width: 0.0
+                                ),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12.0)),
                               ),
@@ -120,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         width: Device.width * 0.03,
                       ),
+                      // Add_ToDo button
                       RawMaterialButton(
                         onPressed: () async {
                           showKeyboard();
@@ -134,7 +140,6 @@ class _HomePageState extends State<HomePage> {
                                 time: FieldValue.serverTimestamp()
                               )
                             );
-                            _todoController.clear();
                             unfocus();
                           }
                         },
@@ -169,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                             return ToDoCard(todo: ToDo.fromJson(json));
                           }
                         );
-                      }else{            // Loading
+                      }else{            // Loading ToDo's
                         return Center(child: Text("Loading...."));
                       }
                     },

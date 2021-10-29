@@ -31,8 +31,9 @@ class _ToDoCardState extends State<ToDoCard> {
   @override
   Widget build(BuildContext context) {
     _todoEditController.text = widget.todo.todoText;
-    _todoEditController.selection = TextSelection.fromPosition(
-        TextPosition(offset: _todoEditController.text.length));
+    _todoEditController.selection = TextSelection.fromPosition( // place cursor at last position.
+      TextPosition(offset: _todoEditController.text.length)
+    );
     
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
@@ -41,34 +42,38 @@ class _ToDoCardState extends State<ToDoCard> {
         borderRadius: BorderRadius.circular(12),
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(
-              vertical: Device.height * 0.012, horizontal: Device.width * 0.05),
+            vertical: Device.height * 0.012, 
+            horizontal: Device.width * 0.05
+          ),
           leading: InkWell(
             onTap: () async {
+              // Mark/Unmark todo done
               await TodoService.updateToDo(
-                  widget.todo, {"done": !widget.todo.done});
+                widget.todo, {"done": !widget.todo.done}
+              );
             },
             child: FaIcon(
               widget.todo.done
-                  ? FontAwesomeIcons.checkCircle
-                  : FontAwesomeIcons.circle,
+              ? FontAwesomeIcons.checkCircle
+              : FontAwesomeIcons.circle,
               size: Device.height * 0.036,
               color: Device.primaryColor.withOpacity(0.9),
             ),
           ),
           title: editToDo
-              //  MediaQuery.of(context).viewInsets.bottom!=0
-              ? TextField(
-                  autofocus: true,
-                  controller: _todoEditController,
-                  decoration: InputDecoration(
-                      // border: InputBorder.none
-                      ),
-                )
-              : Text(
-                  widget.todo.todoText,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ? TextField(  // Edit ToDo text field
+              autofocus: true,
+              controller: _todoEditController,
+              decoration: InputDecoration(
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none
+              ),
+            )
+          : Text(
+              widget.todo.todoText,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           tileColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -92,7 +97,7 @@ class _ToDoCardState extends State<ToDoCard> {
                   });
                 }
                 : () {
-                  // Edit todo
+                  // Edit todo text
                   setState(() {
                     editToDo = !editToDo;
                     if (!editToDo) unfocus(context);
@@ -136,42 +141,3 @@ class _ToDoCardState extends State<ToDoCard> {
     );
   }
 }
-
-// trailing: Row(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               InkWell(
-//                 onTap: () {
-//                   // Edit TO DO
-//                   setState(() {
-//                     editToDo = !editToDo;
-//                     if(!editToDo) unfocus(context);
-//                   });
-//                 },
-//                 child: Container(
-//                   color: editToDo
-//                   ? Colors.black.withOpacity(0.1)
-//                   : null,
-//                   padding: const EdgeInsets.all(8.0),
-//                   child: FaIcon(
-//                     FontAwesomeIcons.edit,
-//                     color: Device.primaryColor,
-//                   ),
-//                 ),
-//               ),
-//               // SizedBox(width: Device.width*0.02,),
-//               InkWell(
-//                 onTap: () async {
-//                   // Delete TO DO
-//                   await TodoService.deleteToDo(widget.todo);
-//                 },
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(8.0),
-//                   child: FaIcon(
-//                     FontAwesomeIcons.trashAlt,
-//                     color: Device.primaryColor,
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),

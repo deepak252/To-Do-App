@@ -4,7 +4,7 @@ import 'package:to_do_app/pages/home_page.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp();  // Initializing firebase
 
   runApp(MyApp());
 }
